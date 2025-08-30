@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+      <!--=============== FAVICON ===============-->
+      <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+      <!--=============== REMIXICONS ===============-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+
+      <!--=============== CSS ===============-->
+      <link rel="stylesheet" href="assets/css/styles.css">
+
+      <title>Responsive portfolio website - Bedimcode</title>
+   </head>
+   <body>
+      <!--==================== HEADER ====================-->
+    <header class="header" id="header">
+  <nav class="nav container">
+    <!-- Logo -->
+    <a href="index.html" class="nav__logo">Yash Mishra</a>
+
+    <!-- Navigation menu -->
+    <div class="nav__menu" id="nav-menu">
+      <ul class="nav__list">
+        <li><a href="#home" class="nav__link active">Home</a></li>
+        <li><a href="#about" class="nav__link">About</a></li>
+        <li><a href="#skills" class="nav__link">Skills</a></li>
+        <li><a href="#work" class="nav__link">Projects</a></li>
+        <li><a href="#experience" class="nav__link">Experience</a></li>
+        <li><a href="#contact" class="nav__link">Contact</a></li>
+      </ul>
+      <!-- Close button -->
+      <div class="nav__close" id="nav-close">
+        <i class="ri-close-line"></i>
+      </div>
+    </div>
+
+    <!-- Toggle button -->
+    <div class="nav__toggle" id="nav-toggle">
+      <i class="ri-menu-line"></i>
+    </div>
+  </nav>
+</header>
+
+      
+      <!--==================== MAIN ====================-->
+      <main class="main">
+         <!--==================== HOME ====================-->
+         <section class="home section" id="home">
+  <div class="home__container">
+
+    <!-- Left Content -->
+    <div class="home__content">
+      <h3>Hello, It's Me</h3>
+      <h1><span class="highlight">Yash Mishra</span></h1>
+      <h3>And I'm a <span class="role">Full-Stack Developer | AI/ML Enthusiast</span></h3>
+      <p>
+        MCA student with strong skills in Python, C++, JavaScript, React.js, 
+        and AI/ML. Passionate about building scalable solutions and solving real-world problems.
+      </p>
+
+      <!-- Social Icons -->
+      <div class="home__social">
+        <a href="https://github.com/Yashmishra14" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/in/yash-mishra-7ab01a225" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:yashpc14@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+
+      <!-- Download CV -->
+      <a href="assets/Yash_Mishra_Resume.pdf" class="btn" target="_blank">Download CV</a>
+    </div>
+
+    <!-- Right Side: Profile Image -->
+    <div class="home__img-wrapper">
+      <img src="assets/img/home-perfil.png" alt="Profile Image" class="home__img">
+    </div>
+  </div>
+</section>
+
+
+
+         
+      <!--==================== About====================-->
+        <section class="home section" id="about">
+  <div class="home__container">
+    
+    <!-- Left Side: Profile Image -->
+    <div class="home__img-wrapper">
+      <img src="assets/img/home-perfil.png" alt="Profile Image" class="home__img">
+    </div>
+
+    <!-- Right Side: Intro Text -->
+    <div class="home__content">
+      <h2 class="home__subtitle">About <span>Me</span></h2>
+      <h3 class="home__role">MCA Student | Full-Stack Developer | AI/ML Enthusiast</h3>
+      <p class="home__description">
+        I specialize in <b>full-stack development</b> and <b>AI/ML</b>, 
+        with expertise in <b>Python, C++, JavaScript, and React.js</b>. 
+        I enjoy solving complex problems, building scalable applications, 
+        and exploring <b>cloud technologies (AWS)</b>.
+      </p>
+      <a href="#about" class="btn">Read More</a>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+ <!--==================== INFO ====================-->
+<section class="skills section" id="skills">
+  <div class="skills__container container">
+    <h2 class="section__title">My Skills</h2>
+    <ul class="skills__list">
+
+      <li class="skills__item"><i class="fab fa-html5 html-icon"></i> HTML / CSS</li>
+      <li class="skills__item"><i class="fab fa-js js-icon"></i> JavaScript</li>
+      <li class="skills__item"><i class="fab fa-react react-icon"></i> React.js</li>
+      <li class="skills__item"><i class="fab fa-node-js node-icon"></i> Node.js</li>
+      <li class="skills__item"><i class="fab fa-python python-icon"></i> Python</li>
+      <li class="skills__item"><i class="fas fa-code cpp-icon"></i> C++</li>
+      <li class="skills__item"><i class="fas fa-database sql-icon"></i> SQL</li>
+      <li class="skills__item"><i class="fas fa-brain ml-icon"></i> Machine Learning</li>
+      <li class="skills__item"><i class="fas fa-cloud aws-icon"></i> AWS Cloud</li>
+
+    </ul>
+  </div>
+</section>
+
+
+         <!--==================== WORKS ====================-->
+         <section class="work section" id="work">
+          <div class="work__container container">
+            <h2 class="section__title">My Projects</h2>
+            <div class="work__grid">
+             <article class="work__card">
+                <img src="assets/img/work-1.jpg" alt="DocEase Web App" class="work__img">
+                   <h3 class="work__title">DocEase – Doctor Recommendation Web App</h3>
+                      <p class="work__description">
+                      Full-stack doctor appointment and recommendation platform with role-based authentication and RESTful APIs.
+                   </p>
+  <a href="https://doceaseyash.netlify.app" target="_blank" class="btn">View Repository</a>
+</article>
+
+             <article class="work__card">
+  <img src="assets/img/work-2.jpeg" alt="Generative AI Job Recommender" class="work__img">
+  <h3 class="work__title">Generative AI Job Recommender</h3>
+  <p class="work__description">
+    Developed an AI-powered system that parses resumes using NLP and matches them with job openings 
+    using semantic similarity via Google Gemini API.
+  </p>
+  <a href="https://github.com/Yashmishra14/Generative-AI-Job-Recommender-System" target="_blank" class="btn">View Repository</a>
+</article>
+
+          <article class="work__card">
+  <img src="assets/img/work-3.jpeg" alt="Fake News Detection" class="work__img">
+  <h3 class="work__title">Fake News Detection</h3>
+  <p class="work__description">
+    Built a machine learning model to classify news articles as fake or real using 
+    TF-IDF vectorization and a Passive-Aggressive Classifier. Achieved 93% accuracy 
+    with strong evaluation metrics.
+  </p>
+  <a href="https://github.com/Yashmishra14/Fake-News-Detection" target="_blank" class="btn">View Repository</a>
+</article>
+<article class="work__card">
+  <img src="assets/img/work-4.jpg" alt="Web Chat Application" class="work__img">
+  <h3 class="work__title">QuickChat</h3>
+  <p class="work__description">
+    Designed and implemented a real-time chat application using React.js, Node.js, 
+    WebSocket, and Socket.IO. Ensured seamless communication with secure authentication 
+    (JWT, OAuth), providing practical experience in full-stack development.
+  </p>
+  <a href="https://github.com/Yashmishra14/QuickChat" target="_blank" class="btn">View Repository</a>
+</article>
+            </div>
+          </div>
+         </section>
+
+   
+
+
+         <!--==================== EXPERIENCE ====================-->
+      <section id="experience" class="experience-section">
+  <h2>Experience</h2>
+
+  <article class="experience-item">
+    <header class="experience-header">
+      <h3 class="role">Full Stack Engineering Intern</h3>
+      <div class="company-location">
+        <span class="company">TripandThrill (McGeeks Mechatronics Pvt. Ltd.)</span>
+        <span class="sep">•</span>
+        <span class="location">Kanpur, India</span>
+      </div>
+      <div class="dates">
+        <time datetime="2025-08">Aug 2025</time> – <time datetime="2025-10">Oct 2025</time>
+      </div>
+    </header>
+
+    <ul class="highlights">
+      <li>Built real-world web application features across <strong>front-end and back-end</strong> stacks.</li>
+      <li>Hands-on with <strong>n8n automations</strong>, REST <strong>APIs</strong>, modern frameworks, <strong>database management</strong>, and <strong>deployment</strong> practices.</li>
+      <li>Collaborated with the engineering team in a fast-paced environment; shipped improvements with code reviews and iterative feedback.</li>
+      <li>Followed company policies and professional standards while delivering quality work.</li>
+    </ul>
+  </article>
+
+  <!-- Duplicate <article> blocks above to add more roles -->
+</section>
+
+
+
+         <!--==================== CONTACT ====================-->
+         <section class="contact section" id="contact">
+            <div class="contact__container container">
+               <h2 class="section__title">Contact Me</h2>
+               <p class="contact__description">Feel free to reach out for collaborations or just a friendly chat!</p>
+               <form action="#" class="contact__form">
+                  <input type="text" placeholder="Your Name" class="contact__input">
+                  <input type="email" placeholder="Your Email" class="contact__input">
+                  <textarea placeholder="Your Message" class="contact__input"></textarea>
+                  <button type="submit" class="button">Send Message</button>
+               </form>
+            </div>
+         </section>
+      </main>
+
+      <!--==================== FOOTER ====================-->
+     <footer class="footer">
+  <div class="footer__container container">
+    <p class="footer__text">© 2023 My Portfolio. All rights reserved.</p>
+    <div class="footer__socials">
+      <a href="https://linkedin.com/in/yash-mishra-7ab01a225" target="_blank" class="footer__icon">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://github.com/Yashmishra14" target="_blank" class="footer__icon">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- Add this in your <head> for Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+      <!--========== SCROLL UP ==========-->
+
+      <a href="#" class="scrollup" id="scroll-up">
+         <i class="uil uil-arrow-up scrollup__icon"></i>
+      </a>
+
+      <!--=============== SCROLLREVEAL ===============-->
+      <script src="assets/js/scrollreveal.min.js"></script>
+
+
+      <!--=============== EMAIL JS ===============-->
+      <script src="assets/js/email.js">
+
+
+      </script>
+
+      <!--=============== MAIN JS ===============-->
+      <script src="assets/js/main.js"></script>
+   </body>
+</html>
