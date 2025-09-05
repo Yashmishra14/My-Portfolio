@@ -36,47 +36,48 @@ function blurHeader(){
 }
 window.addEventListener('scroll', blurHeader)
 
-/*=============== EMAIL JS ===============*/
-// (function() {
-//   // Dynamically load EmailJS SDK if it's not already loaded
-//   function initEmailJS() {
-//     if (typeof emailjs !== 'undefined' && emailjs.init) {
-//       emailjs.init("pVqhcDSOwSNJqOCRb"); // initialize with your public key
-//     }
+/*=============== CONTACT FORM ===============*/
+const contactForm = document.getElementById('contact-form');
 
-//     const form = document.getElementById("contact-form");
-//     if (!form) return;
-
-//     form.addEventListener("submit", function(event) {
-//       event.preventDefault();
-
-//       if (typeof emailjs === 'undefined' || !emailjs.sendForm) {
-//         console.error('EmailJS SDK not loaded.');
-//         return;
-//       }
-
-//       emailjs.sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", this)
-//         .then(function() {
-//           alert("Message Sent!");
-//           form.reset();
-//         }, function(error) {
-//           console.error("FAILED...", error);
-//         });
-//     });
-//   }
-
-//   if (typeof emailjs === 'undefined') {
-//     const script = document.createElement('script');
-//     script.src = "https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js";
-//     script.onload = initEmailJS;
-//     script.onerror = function() {
-//       console.error('Failed to load EmailJS SDK.');
-//     };
-//     document.head.appendChild(script);
-//   } else {
-//     initEmailJS();
-//   }
-// })();
+if (contactForm) {
+  contactForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const formData = new FormData(this);
+    const name = formData.get('user_name');
+    const email = formData.get('user_email');
+    const message = formData.get('user_message');
+    
+    // Basic validation
+    if (!name || !email || !message) {
+      alert('Please fill in all fields.');
+      return;
+    }
+    
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+    
+    // Simulate form submission (replace with actual email service)
+    const submitButton = this.querySelector('button[type="submit"]');
+    const originalText = submitButton.textContent;
+    
+    submitButton.textContent = 'Sending...';
+    submitButton.disabled = true;
+    
+    // Simulate API call
+    setTimeout(() => {
+      alert('Thank you for your message! I\'ll get back to you soon.');
+      this.reset();
+      submitButton.textContent = originalText;
+      submitButton.disabled = false;
+    }, 1500);
+  });
+}
 
 
 /*=============== SHOW SCROLL UP ===============*/
@@ -121,4 +122,32 @@ const sr = ScrollReveal({
 })
 
 sr.reveal('.home__img, .home__title, .home__description', {interval: 200})
-sr.reveal('.work__card, .info__container, .services__item, .contact__form', {interval: 200})
+sr.reveal('.project__card, .info__container, .services__item, .contact__form', {interval: 200})
+sr.reveal('.skill__card', {interval: 200})
+
+/*=============== SKILLS ANIMATION ===============*/
+function animateSkillBars() {
+  const skillBars = document.querySelectorAll('.skill__progress');
+  const skillsSection = document.querySelector('.skills__container');
+  
+  if (!skillsSection) return;
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        skillBars.forEach(bar => {
+          const level = bar.getAttribute('data-level');
+          bar.style.width = level + '%';
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.3
+  });
+  
+  observer.observe(skillsSection);
+}
+
+// Initialize skill bar animation
+document.addEventListener('DOMContentLoaded', animateSkillBars);
