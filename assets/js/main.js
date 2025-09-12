@@ -151,3 +151,117 @@ function animateSkillBars() {
 
 // Initialize skill bar animation
 document.addEventListener('DOMContentLoaded', animateSkillBars);
+
+/*=============== PROJECT DETAILS TOGGLE ===============*/
+// Individual functions for each project card - completely separate
+
+function toggleProject1() {
+  const details = document.getElementById('project-1-details');
+  const button = document.querySelector('button[onclick="toggleProject1()"]');
+  toggleCard(details, button, 'Project 1');
+}
+
+function toggleProject2() {
+  const details = document.getElementById('project-2-details');
+  const button = document.querySelector('button[onclick="toggleProject2()"]');
+  toggleCard(details, button, 'Project 2');
+}
+
+function toggleProject3() {
+  const details = document.getElementById('project-3-details');
+  const button = document.querySelector('button[onclick="toggleProject3()"]');
+  toggleCard(details, button, 'Project 3');
+}
+
+function toggleProject4() {
+  const details = document.getElementById('project-4-details');
+  const button = document.querySelector('button[onclick="toggleProject4()"]');
+  toggleCard(details, button, 'Project 4');
+}
+
+function toggleProject5() {
+  const details = document.getElementById('project-5-details');
+  const button = document.querySelector('button[onclick="toggleProject5()"]');
+  toggleCard(details, button, 'Project 5');
+}
+
+function toggleProject6() {
+  const details = document.getElementById('project-6-details');
+  const button = document.querySelector('button[onclick="toggleProject6()"]');
+  toggleCard(details, button, 'Project 6');
+}
+
+// Helper function for individual card toggling
+function toggleCard(details, button, projectName) {
+  if (!details || !button) {
+    console.error('Element not found for', projectName);
+    return;
+  }
+  
+  console.log('Toggling:', projectName);
+  
+  const isExpanded = details.classList.contains('expanded');
+  console.log('Current state - expanded:', isExpanded);
+  
+  if (isExpanded) {
+    // Collapse
+    console.log('Collapsing:', projectName);
+    details.classList.remove('expanded');
+    button.textContent = 'Read More';
+    button.style.background = 'linear-gradient(135deg, #00d1ff, #4ddbff)';
+  } else {
+    // Expand
+    console.log('Expanding:', projectName);
+    details.classList.add('expanded');
+    button.textContent = 'Read Less';
+    button.style.background = 'linear-gradient(135deg, #ff6b6b, #ff8e8e)';
+  }
+  
+  console.log('After toggle - classes:', details.className);
+}
+
+// Smooth scroll for read more button clicks
+function smoothScrollToProject(projectCard) {
+  projectCard.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  });
+}
+
+// Enhanced project card interactions
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize all project details to collapsed state
+  initializeProjectDetails();
+  
+  const projectCards = document.querySelectorAll('.project__card');
+  
+  projectCards.forEach(card => {
+    const readMoreBtn = card.querySelector('.read-more-btn');
+    
+    if (readMoreBtn) {
+      readMoreBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        // Add a slight delay for smooth animation
+        setTimeout(() => {
+          smoothScrollToProject(card);
+        }, 100);
+      });
+    }
+  });
+});
+
+// Initialize all project details to collapsed state
+function initializeProjectDetails() {
+  const allProjectDetails = document.querySelectorAll('.project__details');
+  const allReadMoreBtns = document.querySelectorAll('.read-more-btn');
+  
+  allProjectDetails.forEach((details, index) => {
+    details.classList.remove('expanded');
+    console.log('Initialized project details:', details.id);
+  });
+  
+  allReadMoreBtns.forEach((btn, index) => {
+    btn.textContent = 'Read More';
+    btn.style.background = 'linear-gradient(135deg, #00d1ff, #4ddbff)';
+  });
+}
