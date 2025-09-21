@@ -39,6 +39,11 @@
       </div>
     </div>
 
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="theme-toggle">
+      <i class="ri-sun-line"></i>
+    </div>
+
     <!-- Toggle button -->
     <div class="nav__toggle" id="nav-toggle">
       <i class="ri-menu-line"></i>
@@ -55,10 +60,13 @@
 
     <!-- Left Content -->
     <div class="home__content">
-      <h3>Hello, It's Me</h3>
-      <h1><span class="highlight">Yash Mishra</span></h1>
-      <h3>And I'm a <span class="role">Full-Stack Developer | AI/ML Enthusiast</span></h3>
-      <p>
+      <h3 class="greeting">Hello, It's Me</h3>
+      <h1 class="name-title">
+        <span class="highlight typing-text">Yash Mishra</span>
+        <span class="cursor">|</span>
+      </h1>
+      <h3 class="role-title">And I'm a <span class="role typing-role">Full-Stack Developer | AI/ML Enthusiast</span></h3>
+      <p class="hero-description">
         MCA student with strong skills in Python, C++, JavaScript, React.js, 
         and AI/ML. Passionate about building scalable solutions and solving real-world problems.
       </p>
@@ -77,7 +85,20 @@
     <!-- Right Side: Profile Image -->
     <div class="home__img-wrapper">
       <img src="assets/img/home-perfil.png" alt="Profile Image" class="home__img">
+      <div class="floating-elements">
+        <div class="floating-element element-1"></div>
+        <div class="floating-element element-2"></div>
+        <div class="floating-element element-3"></div>
+      </div>
     </div>
+  </div>
+  
+  <!-- Scroll Indicator -->
+  <div class="scroll-indicator">
+    <div class="scroll-arrow">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+    <span class="scroll-text">Scroll Down</span>
   </div>
 </section>
 

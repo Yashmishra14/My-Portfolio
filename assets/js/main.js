@@ -233,11 +233,23 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize all project details to collapsed state
   initializeProjectDetails();
   
-  const projectCards = document.querySelectorAll('.project__card');
+  // Initialize scroll animations
+  initializeScrollAnimations();
   
+  // Initialize scroll indicator
+  initializeScrollIndicator();
+  
+  // Initialize theme toggle
+  initializeThemeToggle();
+  
+  // Initialize contact form
+  initializeContactForm();
+
+  const projectCards = document.querySelectorAll('.project__card');
+
   projectCards.forEach(card => {
     const readMoreBtn = card.querySelector('.read-more-btn');
-    
+
     if (readMoreBtn) {
       readMoreBtn.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -254,14 +266,249 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeProjectDetails() {
   const allProjectDetails = document.querySelectorAll('.project__details');
   const allReadMoreBtns = document.querySelectorAll('.read-more-btn');
-  
+
   allProjectDetails.forEach((details, index) => {
     details.classList.remove('expanded');
     console.log('Initialized project details:', details.id);
   });
-  
+
   allReadMoreBtns.forEach((btn, index) => {
     btn.textContent = 'Read More';
     btn.style.background = 'linear-gradient(135deg, #00d1ff, #4ddbff)';
   });
+}
+
+/*=============== SCROLL ANIMATIONS ===============*/
+// Intersection Observer for scroll animations
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('animate');
+    }
+  });
+}, observerOptions);
+
+// Initialize scroll animations
+function initializeScrollAnimations() {
+  // Observe section titles
+  const sectionTitles = document.querySelectorAll('.section__title');
+  sectionTitles.forEach(title => {
+    observer.observe(title);
+  });
+
+  // Observe project cards
+  const projectCards = document.querySelectorAll('.project__card');
+  projectCards.forEach((card, index) => {
+    card.classList.add('fade-in-up');
+    card.style.transitionDelay = `${index * 0.1}s`;
+    observer.observe(card);
+  });
+
+  // Observe skill cards
+  const skillCards = document.querySelectorAll('.skill__card');
+  skillCards.forEach((card, index) => {
+    card.classList.add('scale-in');
+    card.style.transitionDelay = `${index * 0.05}s`;
+    observer.observe(card);
+  });
+
+  // Observe experience items
+  const experienceItems = document.querySelectorAll('.experience-item');
+  experienceItems.forEach((item, index) => {
+    item.classList.add('fade-in-left');
+    item.style.transitionDelay = `${index * 0.2}s`;
+    observer.observe(item);
+  });
+
+  // Observe about section
+  const aboutContent = document.querySelectorAll('.home__content, .home__img-wrapper');
+  aboutContent.forEach((element, index) => {
+    if (index % 2 === 0) {
+      element.classList.add('fade-in-left');
+    } else {
+      element.classList.add('fade-in-right');
+    }
+    observer.observe(element);
+  });
+
+  // Observe contact form
+  const contactDescription = document.querySelector('.contact__description');
+  const contactForm = document.querySelector('.contact__form');
+  
+  if (contactDescription) {
+    observer.observe(contactDescription);
+  }
+  
+  if (contactForm) {
+    observer.observe(contactForm);
+  }
+}
+
+// Smooth scroll for scroll indicator
+function initializeScrollIndicator() {
+  const scrollIndicator = document.querySelector('.scroll-indicator');
+  if (scrollIndicator) {
+    scrollIndicator.addEventListener('click', () => {
+      const aboutSection = document.querySelector('#about');
+      if (aboutSection) {
+        aboutSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  }
+}
+
+/*=============== THEME TOGGLE ===============*/
+function initializeThemeToggle() {
+  const themeToggle = document.getElementById('theme-toggle');
+  const body = document.body;
+  
+  // Check for saved theme preference or default to dark
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  body.setAttribute('data-theme', savedTheme);
+  
+  // Update icon based on current theme
+  updateThemeIcon(savedTheme);
+  
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+    
+    // Add transition effect
+    body.style.transition = 'all 0.3s ease';
+    setTimeout(() => {
+      body.style.transition = '';
+    }, 300);
+  });
+}
+
+function updateThemeIcon(theme) {
+  const themeToggle = document.getElementById('theme-toggle');
+  const icon = themeToggle.querySelector('i');
+  
+  if (theme === 'dark') {
+    icon.className = 'ri-sun-line';
+  } else {
+    icon.className = 'ri-moon-line';
+  }
+}
+
+/*=============== CONTACT FORM ===============*/
+function initializeContactForm() {
+  const form = document.getElementById('contact-form');
+  const inputs = form.querySelectorAll('.contact__input');
+  
+  // Add floating label effect
+  inputs.forEach(input => {
+    input.addEventListener('focus', () => {
+      input.parentElement.classList.add('focused');
+    });
+    
+    input.addEventListener('blur', () => {
+      if (!input.value) {
+        input.parentElement.classList.remove('focused');
+      }
+    });
+    
+    // Real-time validation
+    input.addEventListener('input', () => {
+      validateField(input);
+    });
+  });
+  
+  // Form submission
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    handleFormSubmission(form);
+  });
+}
+
+function validateField(field) {
+  const value = field.value.trim();
+  const fieldName = field.name;
+  let isValid = true;
+  
+  // Remove previous validation classes
+  field.classList.remove('error', 'success');
+  
+  // Validation rules
+  switch (fieldName) {
+    case 'user_name':
+      isValid = value.length >= 2;
+      break;
+    case 'user_email':
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      isValid = emailRegex.test(value);
+      break;
+    case 'user_message':
+      isValid = value.length >= 10;
+      break;
+  }
+  
+  if (isValid) {
+    field.classList.add('success');
+  } else {
+    field.classList.add('error');
+  }
+  
+  return isValid;
+}
+
+function handleFormSubmission(form) {
+  const inputs = form.querySelectorAll('.contact__input');
+  let isFormValid = true;
+  
+  // Validate all fields
+  inputs.forEach(input => {
+    if (!validateField(input)) {
+      isFormValid = false;
+    }
+  });
+  
+  if (isFormValid) {
+    // Show success message
+    showSuccessMessage();
+    form.reset();
+    
+    // Remove validation classes
+    inputs.forEach(input => {
+      input.classList.remove('error', 'success');
+    });
+  } else {
+    // Focus first invalid field
+    const firstError = form.querySelector('.contact__input.error');
+    if (firstError) {
+      firstError.focus();
+    }
+  }
+}
+
+function showSuccessMessage() {
+  const form = document.getElementById('contact-form');
+  let successMsg = form.querySelector('.success-message');
+  
+  if (!successMsg) {
+    successMsg = document.createElement('div');
+    successMsg.className = 'success-message';
+    successMsg.textContent = 'Thank you! Your message has been sent successfully.';
+    form.appendChild(successMsg);
+  }
+  
+  successMsg.classList.add('show');
+  
+  // Hide after 3 seconds
+  setTimeout(() => {
+    successMsg.classList.remove('show');
+  }, 3000);
 }
