@@ -152,72 +152,97 @@ function animateSkillBars() {
 // Initialize skill bar animation
 document.addEventListener('DOMContentLoaded', animateSkillBars);
 
-/*=============== PROJECT DETAILS TOGGLE ===============*/
-// Individual functions for each project card - completely separate
+/*=============== SEE MORE FUNCTIONALITY ===============*/
+let isExpanded = false;
+const initialProjectsToShow = 3;
 
-function toggleProject1() {
-  const details = document.getElementById('project-1-details');
-  const button = document.querySelector('button[onclick="toggleProject1()"]');
-  toggleCard(details, button, 'Project 1');
-}
-
-function toggleProject2() {
-  const details = document.getElementById('project-2-details');
-  const button = document.querySelector('button[onclick="toggleProject2()"]');
-  toggleCard(details, button, 'Project 2');
-}
-
-function toggleProject3() {
-  const details = document.getElementById('project-3-details');
-  const button = document.querySelector('button[onclick="toggleProject3()"]');
-  toggleCard(details, button, 'Project 3');
-}
-
-function toggleProject4() {
-  const details = document.getElementById('project-4-details');
-  const button = document.querySelector('button[onclick="toggleProject4()"]');
-  toggleCard(details, button, 'Project 4');
-}
-
-function toggleProject5() {
-  const details = document.getElementById('project-5-details');
-  const button = document.querySelector('button[onclick="toggleProject5()"]');
-  toggleCard(details, button, 'Project 5');
-}
-
-function toggleProject6() {
-  const details = document.getElementById('project-6-details');
-  const button = document.querySelector('button[onclick="toggleProject6()"]');
-  toggleCard(details, button, 'Project 6');
-}
-
-// Helper function for individual card toggling
-function toggleCard(details, button, projectName) {
-  if (!details || !button) {
-    console.error('Element not found for', projectName);
+function initializeSeeMore() {
+  const seeMoreBtn = document.getElementById('see-more-btn');
+  const projectCards = document.querySelectorAll('.project__card');
+  
+  console.log('See More Button:', seeMoreBtn);
+  console.log('Project Cards:', projectCards.length);
+  
+  if (!seeMoreBtn || !projectCards.length) {
+    console.error('See More button or project cards not found');
     return;
   }
   
-  console.log('Toggling:', projectName);
+  // Hide projects beyond the initial count
+  projectCards.forEach((card, index) => {
+    if (index >= initialProjectsToShow) {
+      card.classList.add('hidden');
+      console.log('Hiding project card:', index);
+    }
+  });
   
-  const isExpanded = details.classList.contains('expanded');
-  console.log('Current state - expanded:', isExpanded);
+  // Add click event listener
+  seeMoreBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    console.log('Button clicked!');
+    toggleSeeMore();
+  });
+  console.log('See More functionality initialized');
+}
+
+function toggleSeeMore() {
+  console.log('Toggle See More clicked');
   
-  if (isExpanded) {
-    // Collapse
-    console.log('Collapsing:', projectName);
-    details.classList.remove('expanded');
-    button.textContent = 'Read More';
-    button.style.background = 'linear-gradient(135deg, #00d1ff, #4ddbff)';
-  } else {
-    // Expand
-    console.log('Expanding:', projectName);
-    details.classList.add('expanded');
-    button.textContent = 'Read Less';
-    button.style.background = 'linear-gradient(135deg, #ff6b6b, #ff8e8e)';
+  const seeMoreBtn = document.getElementById('see-more-btn');
+  const projectCards = document.querySelectorAll('.project__card');
+  
+  if (!seeMoreBtn) {
+    console.error('See More button not found');
+    return;
   }
   
-  console.log('After toggle - classes:', details.className);
+  if (!projectCards.length) {
+    console.error('No project cards found');
+    return;
+  }
+  
+  isExpanded = !isExpanded;
+  console.log('New state - isExpanded:', isExpanded);
+  
+  if (isExpanded) {
+    // Show all projects
+    console.log('Showing all projects');
+    projectCards.forEach((card, index) => {
+      if (index >= initialProjectsToShow) {
+        console.log('Removing hidden class from card:', index);
+        card.classList.remove('hidden');
+      }
+    });
+    
+    // Update button text and icon
+    const buttonText = seeMoreBtn.querySelector('span');
+    const buttonIcon = seeMoreBtn.querySelector('i');
+    
+    if (buttonText) buttonText.textContent = 'See Less';
+    if (buttonIcon) {
+      buttonIcon.className = 'fas fa-chevron-up';
+      seeMoreBtn.classList.add('expanded');
+    }
+  } else {
+    // Hide projects beyond initial count
+    console.log('Hiding projects beyond initial count');
+    projectCards.forEach((card, index) => {
+      if (index >= initialProjectsToShow) {
+        console.log('Adding hidden class to card:', index);
+        card.classList.add('hidden');
+      }
+    });
+    
+    // Update button text and icon
+    const buttonText = seeMoreBtn.querySelector('span');
+    const buttonIcon = seeMoreBtn.querySelector('i');
+    
+    if (buttonText) buttonText.textContent = 'See More';
+    if (buttonIcon) {
+      buttonIcon.className = 'fas fa-chevron-down';
+      seeMoreBtn.classList.remove('expanded');
+    }
+  }
 }
 
 // Smooth scroll for read more button clicks
@@ -230,8 +255,8 @@ function smoothScrollToProject(projectCard) {
 
 // Enhanced project card interactions
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize all project details to collapsed state
-  initializeProjectDetails();
+  // Initialize see more functionality
+  initializeSeeMore();
   
   // Initialize scroll animations
   initializeScrollAnimations();
@@ -244,22 +269,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize contact form
   initializeContactForm();
-
-  const projectCards = document.querySelectorAll('.project__card');
-
-  projectCards.forEach(card => {
-    const readMoreBtn = card.querySelector('.read-more-btn');
-
-    if (readMoreBtn) {
-      readMoreBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        // Add a slight delay for smooth animation
-        setTimeout(() => {
-          smoothScrollToProject(card);
-        }, 100);
-      });
-    }
-  });
 });
 
 // Initialize all project details to collapsed state
