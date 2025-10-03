@@ -155,38 +155,69 @@ document.addEventListener('DOMContentLoaded', animateSkillBars);
 /*=============== SEE MORE FUNCTIONALITY ===============*/
 let isExpanded = false;
 const initialProjectsToShow = 3;
+let seeMoreInitialized = false;
 
 function initializeSeeMore() {
+  // Prevent multiple initializations
+  if (seeMoreInitialized) {
+    console.log('See More already initialized, skipping...');
+    return;
+  }
+  
   const seeMoreBtn = document.getElementById('see-more-btn');
   const projectCards = document.querySelectorAll('.project__card');
   
   console.log('See More Button:', seeMoreBtn);
   console.log('Project Cards:', projectCards.length);
+  console.log('Initial projects to show:', initialProjectsToShow);
   
   if (!seeMoreBtn || !projectCards.length) {
     console.error('See More button or project cards not found');
     return;
   }
   
+  // Reset state
+  isExpanded = false;
+  
   // Hide projects beyond the initial count
   projectCards.forEach((card, index) => {
     if (index >= initialProjectsToShow) {
       card.classList.add('hidden');
-      console.log('Hiding project card:', index);
+      console.log('Hiding project card:', index, 'Title:', card.querySelector('.project__title')?.textContent || 'No title');
+    } else {
+      card.classList.remove('hidden');
+      console.log('Showing project card:', index, 'Title:', card.querySelector('.project__title')?.textContent || 'No title');
     }
   });
   
-  // Add click event listener
-  seeMoreBtn.addEventListener('click', function(e) {
+  // Remove any existing event listeners by cloning the button
+  const newSeeMoreBtn = seeMoreBtn.cloneNode(true);
+  seeMoreBtn.parentNode.replaceChild(newSeeMoreBtn, seeMoreBtn);
+  
+  // Add click event listener to the new button
+  newSeeMoreBtn.addEventListener('click', function(e) {
     e.preventDefault();
+    e.stopPropagation();
     console.log('Button clicked!');
     toggleSeeMore();
   });
-  console.log('See More functionality initialized');
+  
+  // Update button text and icon to initial state
+  const buttonText = newSeeMoreBtn.querySelector('span');
+  const buttonIcon = newSeeMoreBtn.querySelector('i');
+  
+  if (buttonText) buttonText.textContent = 'See More';
+  if (buttonIcon) {
+    buttonIcon.className = 'fas fa-chevron-down';
+    newSeeMoreBtn.classList.remove('expanded');
+  }
+  
+  seeMoreInitialized = true;
+  console.log('See More functionality initialized successfully');
 }
 
 function toggleSeeMore() {
-  console.log('Toggle See More clicked');
+  console.log('Toggle See More clicked, current state:', isExpanded);
   
   const seeMoreBtn = document.getElementById('see-more-btn');
   const projectCards = document.querySelectorAll('.project__card');
@@ -201,6 +232,14 @@ function toggleSeeMore() {
     return;
   }
   
+  // Prevent rapid clicking
+  if (seeMoreBtn.disabled) {
+    console.log('Button is disabled, ignoring click');
+    return;
+  }
+  
+  seeMoreBtn.disabled = true;
+  
   isExpanded = !isExpanded;
   console.log('New state - isExpanded:', isExpanded);
   
@@ -208,10 +247,10 @@ function toggleSeeMore() {
     // Show all projects
     console.log('Showing all projects');
     projectCards.forEach((card, index) => {
-      if (index >= initialProjectsToShow) {
-        console.log('Removing hidden class from card:', index);
-        card.classList.remove('hidden');
-      }
+      console.log('Removing hidden class from card:', index);
+      card.classList.remove('hidden');
+      // Force a reflow to ensure the change is visible
+      card.offsetHeight;
     });
     
     // Update button text and icon
@@ -243,6 +282,11 @@ function toggleSeeMore() {
       seeMoreBtn.classList.remove('expanded');
     }
   }
+  
+  // Re-enable button after a short delay
+  setTimeout(() => {
+    seeMoreBtn.disabled = false;
+  }, 300);
 }
 
 // Smooth scroll for read more button clicks
@@ -255,8 +299,10 @@ function smoothScrollToProject(projectCard) {
 
 // Enhanced project card interactions
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize see more functionality
-  initializeSeeMore();
+  // Initialize see more functionality with a small delay to ensure all elements are loaded
+  setTimeout(() => {
+    initializeSeeMore();
+  }, 100);
   
   // Initialize scroll animations
   initializeScrollAnimations();
@@ -269,6 +315,14 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize contact form
   initializeContactForm();
+});
+
+// Also try to initialize when window loads (fallback)
+window.addEventListener('load', function() {
+  if (!seeMoreInitialized) {
+    console.log('Fallback initialization on window load');
+    initializeSeeMore();
+  }
 });
 
 // Initialize all project details to collapsed state

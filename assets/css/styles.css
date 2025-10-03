@@ -761,6 +761,16 @@ button {
 /* Hidden projects */
 .project__card.hidden {
   display: none !important;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+/* Show projects with animation */
+.project__card:not(.hidden) {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.3s ease;
 }
 
 /* Responsive Design */

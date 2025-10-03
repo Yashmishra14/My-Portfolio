@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>See More Button Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1a1a2e;
+            color: white;
+        }
+        .projects__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .project__card {
+            background: #2a2a3e;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #444;
+            min-height: 200px;
+        }
+        .project__card.hidden {
+            display: none !important;
+        }
+        .see-more-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .see-more-btn {
+            background: #00d1ff;
+            color: #000;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 auto;
+        }
+        .see-more-btn:hover {
+            background: #00a3cc;
+        }
+        .see-more-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .debug-info {
+            background: #333;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-line;
+        }
+        .test-buttons {
+            margin: 1rem 0;
+        }
+        .test-btn {
+            background: #444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .test-btn:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>See More Button Test</h1>
+    
+    <div class="test-buttons">
+        <button class="test-btn" onclick="testInitialization()">Test Initialization</button>
+        <button class="test-btn" onclick="testToggle()">Test Toggle</button>
+        <button class="test-btn" onclick="resetTest()">Reset Test</button>
+        <button class="test-btn" onclick="checkElements()">Check Elements</button>
+    </div>
+    
+    <div class="debug-info" id="debug-info">
+        Initializing...
+    </div>
+    
+    <div class="projects__grid">
+        <div class="project__card">
+            <h3 class="project__title">Project 1 - DocEase</h3>
+            <p>Full-stack doctor appointment platform</p>
+        </div>
+        <div class="project__card">
+            <h3 class="project__title">Project 2 - AI Job Recommender</h3>
+            <p>AI-powered job matching system</p>
+        </div>
+        <div class="project__card">
+            <h3 class="project__title">Project 3 - Fake News Detection</h3>
+            <p>Machine learning model for news classification</p>
+        </div>
+        <div class="project__card">
+            <h3 class="project__title">Project 4 - QuickChat</h3>
+            <p>Real-time chat application</p>
+        </div>
+        <div class="project__card">
+            <h3 class="project__title">Project 5 - Book Recommendation</h3>
+            <p>Book recommendation system</p>
+        </div>
+        <div class="project__card">
+            <h3 class="project__title">Project 6 - AI Mentor Chatbot</h3>
+            <p>AI-powered mentorship assistant</p>
+        </div>
+        <div class="project__card">
+            <h3 class="project__title">Project 7 - Blog App</h3>
+            <p>AI-powered blog platform</p>
+        </div>
+    </div>
+    
+    <div class="see-more-container">
+        <button class="see-more-btn" id="see-more-btn">
+            <span>See More</span>
+            <i class="fas fa-chevron-down"></i>
+        </button>
+    </div>
+
+    <script>
+        let isExpanded = false;
+        const initialProjectsToShow = 3;
+        let seeMoreInitialized = false;
+
+        function updateDebugInfo() {
+            const debugInfo = document.getElementById('debug-info');
+            const projectCards = document.querySelectorAll('.project__card');
+            const hiddenCards = document.querySelectorAll('.project__card.hidden');
+            const seeMoreBtn = document.getElementById('see-more-btn');
+            
+            let debugText = `Debug Info:\n`;
+            debugText += `Total Projects: ${projectCards.length}\n`;
+            debugText += `Hidden Projects: ${hiddenCards.length}\n`;
+            debugText += `Visible Projects: ${projectCards.length - hiddenCards.length}\n`;
+            debugText += `Is Expanded: ${isExpanded}\n`;
+            debugText += `Button Text: ${seeMoreBtn ? seeMoreBtn.querySelector('span').textContent : 'N/A'}\n`;
+            debugText += `Button Disabled: ${seeMoreBtn ? seeMoreBtn.disabled : 'N/A'}\n`;
+            debugText += `Initialized: ${seeMoreInitialized}\n\n`;
+            
+            debugText += `Project Status:\n`;
+            projectCards.forEach((card, index) => {
+                const isHidden = card.classList.contains('hidden');
+                const title = card.querySelector('.project__title')?.textContent || 'No title';
+                debugText += `${index}: ${title} - ${isHidden ? 'HIDDEN' : 'VISIBLE'}\n`;
+            });
+            
+            debugInfo.textContent = debugText;
+        }
+
+        function testInitialization() {
+            console.log('=== Testing Initialization ===');
+            seeMoreInitialized = false;
+            initializeSeeMore();
+        }
+
+        function testToggle() {
+            console.log('=== Testing Toggle ===');
+            toggleSeeMore();
+        }
+
+        function resetTest() {
+            console.log('=== Resetting Test ===');
+            seeMoreInitialized = false;
+            isExpanded = false;
+            const projectCards = document.querySelectorAll('.project__card');
+            projectCards.forEach(card => card.classList.remove('hidden'));
+            updateDebugInfo();
+        }
+
+        function checkElements() {
+            console.log('=== Checking Elements ===');
+            const seeMoreBtn = document.getElementById('see-more-btn');
+            const projectCards = document.querySelectorAll('.project__card');
+            
+            console.log('See More Button:', seeMoreBtn);
+            console.log('Project Cards:', projectCards.length);
+            console.log('Button exists:', !!seeMoreBtn);
+            console.log('Cards exist:', projectCards.length > 0);
+            
+            updateDebugInfo();
+        }
+
+        function initializeSeeMore() {
+            if (seeMoreInitialized) {
+                console.log('See More already initialized, skipping...');
+                return;
+            }
+            
+            const seeMoreBtn = document.getElementById('see-more-btn');
+            const projectCards = document.querySelectorAll('.project__card');
+            
+            console.log('See More Button:', seeMoreBtn);
+            console.log('Project Cards:', projectCards.length);
+            console.log('Initial projects to show:', initialProjectsToShow);
+            
+            if (!seeMoreBtn || !projectCards.length) {
+                console.error('See More button or project cards not found');
+                return;
+            }
+            
+            isExpanded = false;
+            
+            projectCards.forEach((card, index) => {
+                if (index >= initialProjectsToShow) {
+                    card.classList.add('hidden');
+                    console.log('Hiding project card:', index, 'Title:', card.querySelector('.project__title')?.textContent || 'No title');
+                } else {
+                    card.classList.remove('hidden');
+                    console.log('Showing project card:', index, 'Title:', card.querySelector('.project__title')?.textContent || 'No title');
+                }
+            });
+            
+            const newSeeMoreBtn = seeMoreBtn.cloneNode(true);
+            seeMoreBtn.parentNode.replaceChild(newSeeMoreBtn, seeMoreBtn);
+            
+            newSeeMoreBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Button clicked!');
+                toggleSeeMore();
+            });
+            
+            const buttonText = newSeeMoreBtn.querySelector('span');
+            const buttonIcon = newSeeMoreBtn.querySelector('i');
+            
+            if (buttonText) buttonText.textContent = 'See More';
+            if (buttonIcon) {
+                buttonIcon.className = 'fas fa-chevron-down';
+                newSeeMoreBtn.classList.remove('expanded');
+            }
+            
+            seeMoreInitialized = true;
+            console.log('See More functionality initialized successfully');
+            updateDebugInfo();
+        }
+
+        function toggleSeeMore() {
+            console.log('Toggle See More clicked, current state:', isExpanded);
+            
+            const seeMoreBtn = document.getElementById('see-more-btn');
+            const projectCards = document.querySelectorAll('.project__card');
+            
+            if (!seeMoreBtn) {
+                console.error('See More button not found');
+                return;
+            }
+            
+            if (!projectCards.length) {
+                console.error('No project cards found');
+                return;
+            }
+            
+            if (seeMoreBtn.disabled) {
+                console.log('Button is disabled, ignoring click');
+                return;
+            }
+            
+            seeMoreBtn.disabled = true;
+            
+            isExpanded = !isExpanded;
+            console.log('New state - isExpanded:', isExpanded);
+            
+            if (isExpanded) {
+                console.log('Showing all projects');
+                projectCards.forEach((card, index) => {
+                    console.log('Removing hidden class from card:', index);
+                    card.classList.remove('hidden');
+                    card.offsetHeight;
+                });
+                
+                const buttonText = seeMoreBtn.querySelector('span');
+                const buttonIcon = seeMoreBtn.querySelector('i');
+                
+                if (buttonText) buttonText.textContent = 'See Less';
+                if (buttonIcon) {
+                    buttonIcon.className = 'fas fa-chevron-up';
+                    seeMoreBtn.classList.add('expanded');
+                }
+            } else {
+                console.log('Hiding projects beyond initial count');
+                projectCards.forEach((card, index) => {
+                    if (index >= initialProjectsToShow) {
+                        console.log('Adding hidden class to card:', index);
+                        card.classList.add('hidden');
+                    }
+                });
+                
+                const buttonText = seeMoreBtn.querySelector('span');
+                const buttonIcon = seeMoreBtn.querySelector('i');
+                
+                if (buttonText) buttonText.textContent = 'See More';
+                if (buttonIcon) {
+                    buttonIcon.className = 'fas fa-chevron-down';
+                    seeMoreBtn.classList.remove('expanded');
+                }
+            }
+            
+            setTimeout(() => {
+                seeMoreBtn.disabled = false;
+                updateDebugInfo();
+            }, 300);
+        }
+
+        // Auto-initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                initializeSeeMore();
+            }, 100);
+        });
+
+        window.addEventListener('load', function() {
+            if (!seeMoreInitialized) {
+                console.log('Fallback initialization on window load');
+                initializeSeeMore();
+            }
+        });
+    </script>
+</body>
+</html>
